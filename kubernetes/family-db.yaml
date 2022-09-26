@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: family-db
+  labels:
+    app: family-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: family-db
+  template:
+    metadata:
+      labels:
+        app: family-db
+    spec:
+      containers:
+        - name: family-db
+          image: family-db:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: password
+            - name: MYSQL_USER
+              value: user
+            - name: MYSQL_PASSWORD
+              value: password
+          volumeMounts:
+            - name: mysql-initdb
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: mysql-initdb
+          configMap:
+            name: initdb-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: family-db
+  labels:
+    app: family-db
+spec:
+  ports:
+    - port: 3306
+      targetPort: 3306
+      protocol: TCP
+  selector:
+    app: family-db
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: initdb-config
+data:
+  initdb.sql: |
+    -- Schema for family app database
+    drop user if exists `familydbadmin`@`%`;
+    drop user if exists `familydbuser`@`%`;
+    create database if not exists familydb character set utf8mb4 collate utf8mb4_unicode_ci;
+    create user if not exists `familydbadmin`@`%` identified with mysql_native_password by 'password';
+    grant select, insert, update, delete, create, drop, references, index, alter, execute, create view, show view,
+    create routine, alter routine, event, trigger on `familydb`.* to `familydbadmin`@`%`;
+    create user if not exists `familydbuser`@`%` identified with mysql_native_password by 'password';
+    grant select, insert, update, delete, show view on `familydb`.* to `familydbuser`@`%`;
+    flush privileges;
+    
+    -- Schema for family member app database
+    drop user if exists `familymemberdbadmin`@`%`;
+    drop user if exists `familymemberdbuser`@`%`;
+    create database if not exists familymemberdb character set utf8mb4 collate utf8mb4_unicode_ci;
+    create user if not exists `familymemberdbadmin`@`%` identified with mysql_native_password by 'password';
+    grant select, insert, update, delete, create, drop, references, index, alter, execute, create view, show view,
+    create routine, alter routine, event, trigger on `familymemberdb`.* to `familymemberdbadmin`@`%`;
+    create user if not exists `familymemberdbuser`@`%` identified with mysql_native_password by 'password';
+    grant select, insert, update, delete, show view on `familymemberdb`.* to `familymemberdbuser`@`%`;
+    flush privileges;

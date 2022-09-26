@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.si</groupId>
+    <artifactId>family</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0.0</version>
+    <modules>
+        <module>family-app</module>
+        <module>family-member-app</module>
+    </modules>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.eclipse.jkube</groupId>
+                <artifactId>kubernetes-maven-plugin</artifactId>
+                <version>1.9.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <images>
+                        <image>
+                            <name>family-db</name>
+                            <alias>fdb</alias>
+                            <build>
+                                <from>mysql:8.0.30</from>
+                                <env>
+                                    <MYSQL_ROOT_PASSWORD>password</MYSQL_ROOT_PASSWORD>
+                                    <MYSQL_USER>user</MYSQL_USER>
+                                    <MYSQL_PASSWORD>password</MYSQL_PASSWORD>
+                                </env>
+                            </build>
+                        </image>
+                    </images>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

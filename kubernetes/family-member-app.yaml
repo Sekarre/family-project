@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: family-member-app
+  labels:
+    app: family-member-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: family-member-app
+  template:
+    metadata:
+      labels:
+        app: family-member-app
+    spec:
+      containers:
+        - name: family-member-app
+          image: family-member-app:latest
+          imagePullPolicy: Never
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://family-db:3306/familymemberdb?useUnicode=true&characterEncoding=UTF-8
+            - name: MANAGEMENT_ENDPOINT_HEALTH_PROBES_ENABLED
+              value: "true"
+            - name: MANAGEMENT_HEALTH_READINESSTATE_ENABLED
+              value: "true"
+            - name: MANAGEMENT_HEALTH_LIVENESSSTATE_ENABLED
+              value: "true"
+          readinessProbe:
+            httpGet:
+              port: 8081
+              path: /actuator/health/readiness
+          livenessProbe:
+            httpGet:
+              port: 8081
+              path: /actuator/health/liveness
+          ports:
+            - containerPort: 8081
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: family-member-app
+  labels:
+    app: family-member-app
+spec:
+  ports:
+    - port: 8081
+      targetPort: 8081
+      protocol: TCP
+  selector:
+    app: family-member-app
+  type: ClusterIP

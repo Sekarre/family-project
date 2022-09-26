@@ -1,0 +1,151 @@
+{
+	"info": {
+		"_postman_id": "1c662377-398b-40cc-ad25-49534531d16e",
+		"name": "Family project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get family",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:{{port}}/api/v1/family/{{id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"family",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create new family",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"familyName\": \"Nowak\",\r\n    \"nrOfAdults\": 2,\r\n    \"nrOfChildren\": 2,\r\n    \"nrOfInfants\": 0,\r\n    \"familyMembers\": [\r\n        {\r\n            \"givenName\": \"Adam\",\r\n            \"familyName\": \"Nowak\",\r\n            \"age\": 26\r\n        }, \r\n        {\r\n            \"givenName\": \"Monika\",\r\n            \"familyName\": \"Nowak\",\r\n            \"age\": 26\r\n        },\r\n        {\r\n            \"givenName\": \"Wiktor\",\r\n            \"familyName\": \"Nowak\",\r\n            \"age\": 12\r\n        },\r\n        {\r\n            \"givenName\": \"Weronika\",\r\n            \"familyName\": \"Nowak\",\r\n            \"age\": 14\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:{{port}}/api/v1/family",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"family"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create new family invalid",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"familyName\": \"Nowak\",\r\n    \"nrOfAdults\": 2,\r\n    \"nrOfChildren\": 12,\r\n    \"nrOfInfants\": 12,\r\n    \"familyMembers\": [\r\n        {\r\n            \"givenName\": \"Adam\",\r\n            \"familyName\": \"Nowak\",\r\n            \"age\": 26\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:{{port}}/api/v1/family",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"family"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create new family invalid 2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"familyName\": \"123\",\r\n    \"nrOfAdults\": 2,\r\n    \"nrOfChildren\": 2,\r\n    \"nrOfInfants\": 0,\r\n    \"familyMembers\": [\r\n        {\r\n            \"givenName\": \"Adam\",\r\n            \"familyName\": \"Nowak\",\r\n            \"age\": 26\r\n        }, \r\n        {\r\n            \"givenName\": \"Monika\",\r\n            \"familyName\": \"Nowak\",\r\n            \"age\": 26\r\n        },\r\n        {\r\n            \"givenName\": \"Wiktor\",\r\n            \"familyName\": \"Nowak\",\r\n            \"age\": 12\r\n        },\r\n        {\r\n            \"givenName\": \"Weronika\",\r\n            \"familyName\": \"Nowak\",\r\n            \"age\": 14\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:{{port}}/api/v1/family",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"v1",
+						"family"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "port",
+			"value": "8080"
+		},
+		{
+			"key": "id",
+			"value": "1"
+		}
+	]
+}
